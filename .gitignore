@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# project-specific files
+.env
+_playground*
+/wandb
+/*_cache
+/checkpoints*
+!/checkpoints/**/final/
+!/checkpoints/**/final/**
+/results_*
+# /logs
+# /data

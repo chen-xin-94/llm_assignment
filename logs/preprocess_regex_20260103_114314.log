@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 189, in _run_module_as_main
+  File "<frozen runpy>", line 112, in _get_module_details
+  File "/raid/chen.xin/repo/assignment/src/data/__init__.py", line 5, in <module>
+    from src.data_engine.pdf_preprocessor import clean_pdf_text
+ModuleNotFoundError: No module named 'src.data_engine.pdf_preprocessor'

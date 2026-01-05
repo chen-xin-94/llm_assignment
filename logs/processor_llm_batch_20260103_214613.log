@@ -1,0 +1,384 @@
+Loading LLM filter: openai/gpt-oss-120b
+
+==================================================
+LLM PHASE: Filtering 942 preprocessed files
+==================================================
+Loading model: openai/gpt-oss-120b ...
+Fetching 41 files:   0%|          | 0/41 [00:00<?, ?it/s]Fetching 41 files: 100%|██████████| 41/41 [00:00<00:00, 10391.35it/s]
+Loading checkpoint shards:   0%|          | 0/15 [00:00<?, ?it/s]
+Fetching 41 files:   0%|          | 0/41 [00:00<?, ?it/s][AFetching 41 files: 100%|██████████| 41/41 [00:00<00:00, 8810.66it/s]
+Loading checkpoint shards:   7%|▋         | 1/15 [00:01<00:27,  1.97s/it]Loading checkpoint shards:  13%|█▎        | 2/15 [00:03<00:23,  1.78s/it]Loading checkpoint shards:  20%|██        | 3/15 [00:05<00:20,  1.69s/it]Loading checkpoint shards:  27%|██▋       | 4/15 [00:06<00:15,  1.44s/it]Loading checkpoint shards:  33%|███▎      | 5/15 [00:07<00:14,  1.46s/it]Loading checkpoint shards:  40%|████      | 6/15 [00:09<00:12,  1.41s/it]Loading checkpoint shards:  47%|████▋     | 7/15 [00:10<00:10,  1.32s/it]Loading checkpoint shards:  53%|█████▎    | 8/15 [00:11<00:09,  1.41s/it]Loading checkpoint shards:  60%|██████    | 9/15 [00:13<00:08,  1.40s/it]Loading checkpoint shards:  67%|██████▋   | 10/15 [00:14<00:06,  1.31s/it]Loading checkpoint shards:  73%|███████▎  | 11/15 [00:15<00:05,  1.32s/it]Loading checkpoint shards:  80%|████████  | 12/15 [00:16<00:03,  1.31s/it]Loading checkpoint shards:  87%|████████▋ | 13/15 [00:17<00:02,  1.19s/it]Loading checkpoint shards:  93%|█████████▎| 14/15 [00:19<00:01,  1.25s/it]Loading checkpoint shards: 100%|██████████| 15/15 [00:20<00:00,  1.19s/it]Loading checkpoint shards: 100%|██████████| 15/15 [00:20<00:00,  1.35s/it]
+Device set to use cuda:0
+Model loaded.
+Skipped 658 already-processed files
+Processing in batches of 14...
+  0%|          | 0/21 [00:00<?, ?it/s]The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+  5%|▍         | 1/21 [03:12<1:04:19, 192.97s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 10%|▉         | 2/21 [03:27<27:47, 87.78s/it]   A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 14%|█▍        | 3/21 [04:05<19:37, 65.39s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 19%|█▉        | 4/21 [04:15<12:15, 43.25s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 24%|██▍       | 5/21 [04:38<09:39, 36.20s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+
+REJECTED: 028_Stefan_Hienzsch_takes_over_as_Head_of_BMW_Bank.txt (Content is insufficient and lacks meaningful information.)
+
+REJECTED: 044_BMW_M_Award_in_MotoGP___Record_winner_Marc_Márquez.txt (No substantive article content after cleaning.)
+
+REJECTED: 143_Satellite_Details__BMW_Group_Press_Conference__IAA.txt (Content is empty or contains only boilerplate after cleaning.)
+
+REJECTED: 148_Satellite_Details__BMW_Group_Keynote__World_Premie.txt (No substantive article content after cleaning.)
+
+REJECTED: 154_Hypercar_with_a_new_look__BMW_M_Hybrid_V8_receives.txt (Language mismatch – title is English but content is Romanian.)
+
+REJECTED: 157_Proactive_Care__MINI_elevates_customer_service_to_.txt (Language mismatch between English title and German content.)
+
+REJECTED: 166_DTM__Double_victory_at_the_Nürburgring___René_Rast.txt (Content is garbled and contains no meaningful text.)
+
+REJECTED: 212_36th_BMW_International_Open__Quintet_shares_lead_a.txt (Content consists solely of tabular player data without meaningful article text.)
+
+REJECTED: 227_Thrilling_Performance_for_the_Fastest_MotoGP__Qual.txt (Content is garbled and contains no meaningful article text.)
+
+REJECTED: 238_Line-up_for_the_24-hour_race__Samantha_Tan_makes_h.txt (Language mismatch – title is English but the article content is in German.)
+
+REJECTED: 247_BMW_Group_scales_Virtual_Factory.txt (Content is garbled and lacks meaningful information.)
+
+REJECTED: 254_Alexander_Buresch_appointed_head_of_BMW_Group_Fina.txt (Insufficient meaningful content after cleaning.)
+
+REJECTED: 269_Three-millionth_electrified_vehicle_rolls_off_BMW_.txt (content is empty or insufficient.)
+
+REJECTED: 272_BMW_is_once_again_bringing_an_exclusive_study_for_.txt (Empty content)
+
+REJECTED: 277_BMW_Group_and_Solid_Power_are_testing_all-solid-st.txt (Empty content)
+
+REJECTED: 294_The_BMW_Group_at_munich_creative_business_week_202.txt (Content is empty or contains only garbled placeholder text.)
+
+REJECTED: 297_Statement_Walter_Mertl__Member_of_the_Board_of_Man.txt (insufficient meaningful content)
+
+REJECTED: 301_BMW_Group_and_ESMT_Berlin_enter_fourth_year_of_Cha.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 323_Humanity__warmth__precision___BMW_HypersonX_create.txt (Empty content)
+
+REJECTED: 332_Top_performance_through_training_and_teamwork.txt (Empty content)
+
+REJECTED: 344_20th_BMW_Art_Car_at_Art_Basel_Hong_Kong_2025__BMW_.txt (Empty content)
+
+REJECTED: 346_Additional_images__BMW_Group_Design_shows_design_i.txt (Empty content)
+
+REJECTED: 348__R__EVOLUTION_OF_ART__Start_of_the_BMW_Art_Car_Wor.txt (Empty content)
+
+REJECTED: 349_Movie_entertainment_for_social_media__The_new_glob.txt (Empty content)
+
+REJECTED: 352_Top_tennis_at_ATP_500_debut_in_Munich__Zverev__Fri.txt (Language mismatch – English title but content is German.)
+
+REJECTED: 367_Update_for_the_Dingolfing_Electric_Pioneer.txt (Empty content)
+
+REJECTED: 378_Anniversary__20_years_of_series_production_at_BMW_.txt (Content is empty or consists only of bullet points.)
+
+REJECTED: 379_Strategically_positioned___flexibly_managed__The_B.txt (Empty content)
+
+REJECTED: 380_BMW_Group_s_home_plant_gears_up_for_NEUE_KLASSE_.txt (Content is empty or contains only placeholder boilerplate without meaningful article text.)
+
+REJECTED: 384_Postcard_Story__Setting_off_on_a_Winter_Adventure_.txt (language mismatch (English title but German content))
+
+REJECTED: 387_The_BMW_M4_CS_Edition_VR46__Exclusive_edition_mark.txt (Empty content)
+
+REJECTED: 396_From_pioneer_to_innovation_powerhouse__BMW_Startup.txt (Content is empty or does not contain meaningful text.)
+
+REJECTED: 404_New_exclusive_variant_of_the_BMW_X3_with_extended_.txt (Empty content)
+
+REJECTED: 405_BMW_Group_Plant_Dingolfing_and_Landshut_University.txt (Empty content)
+
+REJECTED: 406_Reopening_of_BMW_Welt__What_guests_can_look_forwar.txt (Empty content)
+
+REJECTED: 407_MotoGP__Season_Launch__Presentation_of_the_new_BMW.txt (No substantive article content after cleaning.)
+
+REJECTED: 409_BMW_Opera_for_All_Concert_2025__World-Class_Opera_.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 424_Another_Record_Year__BMW_M_GmbH_Continues_on_the_P.txt (Empty content)
+
+REJECTED: 426_BMW_Group_scores_circular_economy_win_with_high-vo.txt (Empty content)
+
+REJECTED: 427_Successful_racing_debut__New_BMW_M4_GT3_EVO_triump.txt (language mismatch)
+
+REJECTED: 430_New_BMW_Panoramic_iDrive_revolutionises_vehicle_op.txt (Content is empty or contains only bullet points without meaningful text.)
+
+REJECTED: 431_BMW_Group_tops_rankings_as_most_popular_employer_a.txt (Empty content)
+
+REJECTED: 435_BMW_Brings_a__Little__Las_Vegas_Magic_to_CES_2025_.txt (Content is empty or contains only bullet points)
+
+REJECTED: 439_Charité_Berlin_and_BMW_Group_Announce_Groundbreaki.txt (Empty content)
+
+REJECTED: 441_BMW_Group_diesel_from_the_factory_with_HVO_100___C.txt (Empty content)
+
+REJECTED: 444_Quiet_testing_for_quiet_cars__The_BMW_Group_s_new_.txt (Empty content)
+
+REJECTED: 447_BMW_Group_and_Airbus_reveal_winners_of_Quantum_Com.txt (Content is empty after cleaning.)
+
+REJECTED: 448_Setting_the_course_for_continuity__BMW_AG_lines_up.txt (Content is empty or contains only bullet points without meaningful text.)
+
+REJECTED: 451_Sheer_Driving_Pleasure_unites_generations___the_BM.txt (Content is insufficient and lacks meaningful press release text.)
+
+REJECTED: 453_BMW_Welt_bids_farewell_and_thank_you_to_star_chef_.txt (Empty content)
+
+REJECTED: 455_BMW_and_Kith_continue_their_cooperation_and_presen.txt (Empty content)
+
+REJECTED: 460_From_Austria_to_Hungary__BMW_Group_Plant_Steyr_pro.txt (Empty content)
+
+REJECTED: 464_Intercultural_Innovation_Hub_2024__United_Nations_.txt (Empty content)
+
+REJECTED: 466_Innovative_direct_recycling_at_the_BMW_Group__New_.txt (Empty content)
+
+REJECTED: 468_High-tech_in_production__BMW_Group_enables_automat.txt (Empty content)
+
+REJECTED: 476_BMW_Group_Plant_Debrecen_picks_up_the_pace__as_fir.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 478_BMW_Group_Competence_Centre_for_Battery_Cell_Produ.txt (Empty content)
+
+REJECTED: 483_Francesco_Bagnaia_wins_thrilling_race_for_the_BMW_.txt (Content contains only boilerplate and no meaningful article text.)
+
+REJECTED: 494_Sportiness_meets_everyday_practicality.txt (Empty content)
+
+REJECTED: 497_Start_of_production_for_the_new_BMW_2_Series_Gran_.txt (content is garbled and contains no meaningful text.)
+
+REJECTED: 504_The_new_BMW_2_Series_Gran_Coupé__spectacular_debut.txt (Empty content)
+
+REJECTED: 505_The_new_Talent_Campus_at_BMW_Group_Plant_Leipzig__.txt (Insufficient meaningful content.)
+
+REJECTED: 510_High-performance_with_motorsport_DNA__The_new_MINI.txt (language mismatch between title (English) and content (German))
+
+REJECTED: 511_All_1066_pillars_of_the_high-voltage_battery_assem.txt (Empty content)
+
+REJECTED: 513_PV_electricity_generated_directly_from_plant_.txt (Empty content)
+
+REJECTED: 520_Lower-emissions_transport__Electric_trucks_for_ele.txt (Content is garbled and contains no meaningful text.)
+
+REJECTED: 523_The_new_BMW_2_Series_Gran_Coupé_.txt (Empty content)
+
+REJECTED: 526_The_BMW_Group_with_two_MINI_world_premieres_and_BM.txt (Empty content)
+
+REJECTED: 527_10_million_and_counting__software_updates_delivere.txt (Empty content)
+
+REJECTED: 532_BMW_Skytop__Premium_carmaker_announces_strictly_li.txt (Empty content)
+
+REJECTED: 536_BMW_Group_and_Tata_Technologies_establish_BMW_Tech.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 538_BMW_Group_taps_into_markets_with_local_production_.txt (Empty content)
+
+REJECTED: 542_BMW_M_Mixed_Reality__New_features_to_enhance_the_d.txt (Empty content)
+
+REJECTED: 549_BMW_model_update_measures_for_autumn_2024_.txt (Empty content)
+
+REJECTED: 550_Looking_ahead__Year-end_highlights_at_BMW_Welt_.txt (Empty content)
+
+REJECTED: 561_20th_BMW_PGA_Championship__Eagles_for_Education_ta.txt (content lacks meaningful article text.)
+
+REJECTED: 567_BMW_Group_Plant_Steyr_switches_energy_supply.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 568_BMW_Motorrad_International_GS_Trophy_2024_Namibia_.txt (Content is empty or contains no meaningful text.)
+
+REJECTED: 578_Research_Cooperation__BMW_Group_and_University_of_.txt (Empty content) 29%|██▊       | 6/21 [05:05<08:12, 32.86s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 33%|███▎      | 7/21 [05:55<09:00, 38.61s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 38%|███▊      | 8/21 [06:09<06:38, 30.67s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 43%|████▎     | 9/21 [06:22<05:01, 25.16s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 48%|████▊     | 10/21 [09:14<12:56, 70.58s/it]You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 52%|█████▏    | 11/21 [12:34<18:22, 110.22s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 57%|█████▋    | 12/21 [17:29<24:56, 166.28s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 62%|██████▏   | 13/21 [21:34<25:22, 190.26s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 67%|██████▋   | 14/21 [26:34<26:03, 223.40s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 71%|███████▏  | 15/21 [29:57<21:43, 217.20s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 76%|███████▌  | 16/21 [34:43<19:50, 238.02s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 81%|████████  | 17/21 [37:38<14:35, 218.96s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+
+
+REJECTED: 581_BMW_Group_adjusts_guidance_for_2024_financial_year.txt (Content is empty or contains only bullet points without meaningful text.)
+
+REJECTED: 583_The_soul_of_BMW__BMW_launches_international_multi-.txt (Empty content)
+
+REJECTED: 584_BMW_Group_Recycling_and_Dismantling_Centre__RDC___.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 587_Hybrid_Power_from_BMW_M__The_New_BMW_M5_MotoGP__Sa.txt (No meaningful article content after cleaning.)
+
+REJECTED: 588_Hydrogen_Pioneers__BMW_Group_and_Toyota_Motor_Corp.txt (Empty content)
+
+REJECTED: 594_Things_get_colourful_in_Debrecen___Paint_shop_beco.txt (Content is empty or consists only of bullet points.)
+
+REJECTED: 601_BMW_Travel_Diaries__Crossing_the_Alps_with_the_new.txt (Empty content)
+
+REJECTED: 602_In-car_entertainment__BMW_and_Deutsche_Fussball_Li.txt (Empty content)
+
+REJECTED: 610_BMW_M_Award_in_MotoGP___The_all-new_BMW_M5_is_the_.txt (No meaningful article content after cleaning.)
+
+REJECTED: 612_Mattel__AirConsole__and_BMW_Group_Announce_World_P.txt (Empty content)
+
+REJECTED: 613_New_functions__extensive_updates__My_BMW_App_offer.txt (Empty content)
+
+REJECTED: 618_BMW_M_Visionary_Materials_Seat_wins_2024_Altair_En.txt (Empty content)
+
+REJECTED: 621_Advanced__luxurious_and_for_the_first_time_availab.txt (Empty content)
+
+REJECTED: 631__The_heart_of_e-mobility_at_the_BMW_Group_.txt (Empty content)
+
+REJECTED: 632_Think_global___act_local_for_local__Where_the_BMW_.txt (Empty content)
+
+REJECTED: 638_Next_step_in_reducing_CO2_from_production__BMW_Gro.txt (Empty content)
+
+REJECTED: 642_Innovative__3D_human_simulation___BMW_Group_Plant_.txt (content is garbled and contains no meaningful text.)
+
+REJECTED: 643_Initiative_for_more_collaboration_on_vehicle_softw.txt (Empty content)
+
+REJECTED: 648_BMW_Group_is_first_automobile_manufacturer_to_rece.txt (Empty content)
+
+REJECTED: 650_Learning_for_the_future___with_artificial_intellig.txt (Empty content)
+
+REJECTED: 653_BMW_celebrates_world_premieres_and_motor_sport_ann.txt (Empty content)
+
+REJECTED: 668_35th_BMW_International_Open__Golf_fans_celebrate_L.txt (content consists only of tabular draw data without meaningful article text.)
+
+REJECTED: 670_BMW_TechWorks_Romania__BMW_Group_and_NTT_DATA_acce.txt (Content is empty or contains only nonsensical characters without meaningful information.)
+
+REJECTED: 678_Start_of_production_for_high-performance_sedan.txt (Empty content)
+
+REJECTED: 685_Architecture_sets_the_tone_.txt (Empty content)
+
+REJECTED: 690_Road_to_autonomous_driving__BMW_is_the_first_car_m.txt (Empty content)
+
+REJECTED: 695_First_North_American_press_shop__BMW_Group_further.txt (Content is empty or contains only bullet points.)
+
+REJECTED: 708_The_new_BMW_2_Series_Coupé_.txt (Empty content)
+
+REJECTED: 717_BMW_M_Motorsport_and_PUMA_present_second_edition_o.txt (Empty content)
+
+REJECTED: 728_Technical_data_-_BMW_i4__valid_as_of_July_2024_.txt (Empty content)
+
+REJECTED: 729_Technical_data_-_BMW_4_Series_Gran_Coupé__valid_as.txt (Empty content)
+
+REJECTED: 737_BMW_model_update_measures_for_summer_2024_.txt (Empty content)
+
+REJECTED: 738_More_variety_in_the_BMW_5_Series__Market_launch_of.txt (Empty content)
+
+REJECTED: 749_BMW_Group_expands_use_of_3D-printed__customised_ro.txt (Empty content)
+
+REJECTED: 755_Donation_sum_of_BMW_for__Dunks_for_Tomorrow__rises.txt (Content is too short and lacks meaningful information.)
+
+REJECTED: 756_World_premiere_in_Cannes__the_BMW_XM_Mystique_Allu.txt (Content is empty or lacks meaningful information.)
+
+REJECTED: 760_When_the_world_comes_together.txt (Empty content)
+
+REJECTED: 762_ESMT_Berlin_and_BMW_Group_enter_third_year_of_Chan.txt (Content is empty or lacks meaningful text.)
+
+REJECTED: 763_Production_milestone_in_Shenyang__BBA_reaches_6_mi.txt (Content is empty or consists only of bullet points.)
+
+REJECTED: 773__Good_boy__SpOTTO___Robot_dog_scans_and_monitors_m.txt (Content is empty or contains only bullet points without meaningful text.)
+
+REJECTED: 774_Exclusive_sportiness_for_every_occasion__BMW_M_Per.txt (Empty content)
+
+REJECTED: 776_Construction_of_high-voltage_battery_assembly_gets.txt (Content is empty or only bullet points)
+
+REJECTED: 783_The_new_BMW_i4_and_the_new_BMW_4_Series_Gran_Coupé.txt (Empty content)
+
+REJECTED: 794_More_modern__more_accessible__BMW_Museum_renovates.txt (Content is empty or contains only bullet points without meaningful text.)
+
+REJECTED: 796_Precise__assured__versatile__The_new_BMW_X3_underg.txt (Empty content)
+
+REJECTED: 803_BMW_Group_is_electrifying_Plant_Araquari.txt (Empty content)
+
+REJECTED: 811_BMW_Group_and_Rimac_Technology_agree_long-term_par.txt (Empty content)
+
+REJECTED: 819_Thrilling__supporting__unifying__sport_is_in_our_g.txt (Empty content)
+
+REJECTED: 820_BMW_Group_and_Tata_Technologies_aim_to_collaborate.txt (Content is empty or consists only of bullet points.)
+
+REJECTED: 822_Intercultural_Innovation_Hub_in_action__Capacity-b.txt (Content is empty or contains only bullet points without meaningful text.)
+
+REJECTED: 824_BMW_Security_Vehicle_Trainings__Customised_securit.txt (Empty content)
+
+REJECTED: 835_BMW_Group_with__live_wire__to_innovative_productio.txt (language mismatch (title English but content German))
+
+REJECTED: 843_BMW_Group_continues_on_profitable_growth_course.txt (Content is empty or lacks meaningful text.)
+
+REJECTED: 845_BMW_Motorrad_Motorsport_sets_course_for_strategic_.txt (Empty content)
+
+REJECTED: 853_BMW_Group_and_NTT_DATA_Romania_sign_Joint_Venture_.txt (Content is empty or lacks meaningful information after cleaning.)
+
+REJECTED: 854_BMW_München_and_FC_Bayern_Munich_Basketball_break_.txt (content language does not match the language of the title (expected German, found English))
+
+REJECTED: 855_BMW_M_Motorsport_and_LEGO__celebrate_passion_for_r.txt (Empty content)
+
+REJECTED: 862_Technology_is__also__for_women.txt (content is garbled and contains no meaningful text.)
+
+REJECTED: 875_Start_of_applications_for_the_Intercultural_Innova.txt (Content is empty or consists only of bullet points.)
+
+REJECTED: 880_BMW_continues_run_of_success__taking_top_spot_in_n.txt (Empty content)
+
+REJECTED: 882_BMW_Motorrad_Motorsport_uses_alternative_fuel_from.txt (Empty content)
+
+REJECTED: 884_Appointment_of_new_leadership_in_the_Corporate_Com.txt (Empty content)
+
+REJECTED: 885_All_under_one_roof___staff_move_into_Plant_Debrece.txt (Content is empty after cleaning.)
+
+REJECTED: 890_BMW_Group_Plant_Steyr_wins_INDUSTRIE_4_0_AWARD.txt (Empty content)
+
+REJECTED: 891_BMW_is__Talkin__Like_Walken__During_This_Year_s_Su.txt (Empty content)
+
+REJECTED: 895_Milestone_at_BMW_Group_Plant_Steyr__Production_fac.txt (Empty content)
+
+REJECTED: 897_BMW_Group_Partners_with_Dassault_Systèmes_to_Bring.txt (Content is garbled and contains no meaningful text.)
+
+REJECTED: 899_The_BMW_Z4_Pure_Impulse_edition_.txt (Empty content)
+
+REJECTED: 900_The_new_BMW_M4_Coupé__the_new_BMW_M4_Convertible_.txt (Empty content)
+
+REJECTED: 901_The_new_BMW_4_Series_Coupé__the_new_BMW_4_Series_C.txt (Content is empty or consists only of bullet points without meaningful text.)
+
+REJECTED: 902_BMW_model_update_measures_for_spring_2024_.txt (Empty content)
+
+REJECTED: 905_BMW_Group_continues_to_reduce_EU_CO2_fleet-wide_em.txt (Empty content)
+
+REJECTED: 910_Market_launch_of_new_BMW_5_Series_Sedan_and_new_BM.txt (Empty content)
+
+REJECTED: 916_Top_international_marks_for_the_vehicle_safety_of_.txt (Empty content)
+
+REJECTED: 917_BMW_Group_endows_RWTH_Aachen_University_with_a_new.txt (Empty content)
+
+REJECTED: 924_BMW_M_GmbH_continues_to_grow__more_than_200_000_ve.txt (Empty content)
+
+REJECTED: 927_Transformation_to_E-mobility__BMW_Group_s_Munich_p.txt (Empty content)
+
+REJECTED: 933_BMW_M_Motorsport_and_PUMA_present_limited-edition_.txt (Empty content)
+
+REJECTED: 937_Freude_forever__BMW_sends_greetings_with_a_heart-w.txt (Empty content)
+
+REJECTED: 939_IGTC_finale_in_Abu_Dhabi__Second_place_on_the_podi.txt (language mismatch between title (English) and content (German))
+
+REJECTED: 951_Preparation_for_WorldSBK_2024__Toprak_Razgatlioglu.txt (language mismatch (German content for English title))
+
+REJECTED: 953_BMW_Group_to_build_state-of-the-art_Talent_Campus_.txt (Empty content)
+
+REJECTED: 956_Jointly_Pushing_Forward_Premium_E-Mobility_Experie.txt (Content is empty or contains only bullet points.) 86%|████████▌ | 18/21 [40:36<10:19, 206.55s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 90%|█████████ | 19/21 [44:27<07:08, 214.06s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 95%|█████████▌| 20/21 [49:23<03:58, 238.59s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+100%|██████████| 21/21 [51:06<00:00, 197.92s/it]100%|██████████| 21/21 [51:06<00:00, 146.03s/it]
+
+
+REJECTED: 970__BRIDGE__Educating_young_people_for_tomorrow__toda.txt (Content is garbled and contains no meaningful text.)
+
+REJECTED: 972_Pure_racetrack_DNA__The_new_centrelock_wheels_from.txt (Empty content)
+
+REJECTED: 974_Leipzig_loves_MINI__BMW_Group_Plant_Leipzig_celebr.txt (content is empty or lacks meaningful text)
+
+REJECTED: 975_One_line___two_brands___three_drives__BMW_Group_Pl.txt (Content is empty or lacks meaningful article text.)
+
+REJECTED: 976_Level_3_highly_automated_driving_available_in_the_.txt (Empty content)
+
+REJECTED: 979_Staff_changes_in_BMW_Group_Corporate_Communication.txt (Empty content)
+
+REJECTED: 988_Training_center_opened_at_BMW_Group_plant_in_Debre.txt (Content is empty or contains only meaningless repeated text.)
+
+REJECTED: 997_Expertise_built_into_every_cell__BMW_Group_produce.txt (Content is empty or lacks meaningful text after cleaning.)
+
+Rejected 170 articles. See: data/preprocessed_llm/rejected.json
+
+LLM phase complete. Output: data/preprocessed_llm
+
+Phase complete. No formatting performed.
