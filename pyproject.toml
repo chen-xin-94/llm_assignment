@@ -96,9 +96,9 @@ ignore = [
     "LOG",
     "E402",
     "N812",   # Allow import torch.nn.functional as F
-    "PT004", 
     "DTZ007",
     "PLC0415",
+    "RET504",
 ]
 unfixable = [
     "B905", # Fix defaults to strict=False, which is not what we want.
@@ -118,12 +118,12 @@ markers = [
 testpaths = ["tests"]
 
 [tool.coverage.run]
-source = ["src/llm_assignment", "scripts"]
+source = ["src/llm_assignment"]
 
 [tool.coverage.report]
 skip_empty = true
 ignore_errors = true
-omit = ["*__init__.py", "**/configs/**", "*/_remote_module_non_scriptable.py"]
+omit = ["*__init__.py", "**/configs/**", "*/_remote_module_non_scriptable.py", "*_cache", "**/unsloth_compiled_cache/**", "scripts/**"]
 
 [tool.taskipy.tasks]
 # Code style

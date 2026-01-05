@@ -10,7 +10,6 @@ Two-phase workflow:
 
 from __future__ import annotations
 
-import argparse
 import asyncio
 from contextlib import suppress
 from datetime import UTC
@@ -465,26 +464,3 @@ async def scrape_bmw_articles(max_articles: int = 100, output_dir: Path | None =
 def run_scraper(max_articles: int = 100, output_dir: str = "data") -> list[dict]:
     """Synchronous wrapper."""
     return asyncio.run(scrape_bmw_articles(max_articles, Path(output_dir)))
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="BMW Press Release Scraper")
-    parser.add_argument("--scrape", action="store_true", help="Phase 2: Scrape content for collected URLs")
-    parser.add_argument(
-        "--target",
-        "--max-articles",
-        type=int,
-        default=100,
-        help="Target number of articles to collect/scrape",
-    )
-    parser.add_argument("--data-dir", type=str, default="data", help="Data directory")
-
-    args = parser.parse_args()
-    d_dir = Path(args.data_dir)
-
-    # Default: Always collect
-    asyncio.run(collect_urls_async(d_dir, target_count=args.target))
-
-    # Optional: Scrape
-    if args.scrape:
-        asyncio.run(scrape_articles_async(d_dir, max_articles=args.target))

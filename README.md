@@ -3,35 +3,66 @@
 End-to-end pipeline for fine-tuning Qwen3-8B on BMW press releases with model architecture comparison.
 
 ## Quick Start
-
 ```bash
 # 1. Setup
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Create & activate venv
 uv venv --python 3.11.12 .venv
-uv sync --all-groups.
+uv sync --all-groups
 uv run playwright install-deps
 uv run playwright install
 source .venv/bin/activate
 
-# 2. Collect data (full pipeline: scrape + download PDFs + preprocess)
-./scripts/scrape.sh --target 1000 --all
+# 2. Collect data
+# Default: Runs full pipeline (URLs -> Scrape Content -> Download PDFs)
+python scripts/scrape.py --target 1000 --all
 
-# 3. Train models
-# Train original model
+# Options:
+# Only collect URLs (metadata only)
+python scripts/scrape.py --target 1000 
+# Only scrape content for existing URLs
+python scripts/scrape.py --scrape
+# Only download PDFs for existing articles
+python scripts/scrape.py --download-pdfs
+
+# 3. Preprocess data
+# Full pipeline with Regex cleaning + LLM filtering (requires GPU) + dataset formatting
+python scripts/preprocess.py --phase all --llm-model openai/gpt-oss-120b
+
+# Options:
+# Regex cleaning + dataset formatting (No LLM filtering)
+python scripts/preprocess.py --phase no-llm
+# Only regex filtering
+python scripts/preprocess.py --phase regex
+# Use specific formatting style (e.g., Q&A format)
+python scripts/preprocess.py --phase no-llm --style qa
+
+# 4. Train models
+# Set GPU devices
+export CUDA_VISIBLE_DEVICES=0,1
+# Original model with LoRA
+python scripts/train.py --config configs/original_lora.yaml
+
+# Variants:
+# Dropped layer with LoRA
+python scripts/train.py --config configs/dropped_lora.yaml
+# Pruned model with LoRA
+python scripts/train.py --config configs/pruned_lora.yaml
+
+# No LoRA (Full Fine-tuning):
 python scripts/train.py --config configs/original.yaml
-# Train dropped model (one layer removed)
 python scripts/train.py --config configs/dropped.yaml
-# Train pruned model (layers truncated)
 python scripts/train.py --config configs/pruned.yaml
 
-# 4. Evaluate
-# Fine-tuned local checkpoint with training config
-python scripts/evaluate.py --model checkpoints/dropped/final --train-config configs/dropped.yaml
+# 5. Evaluate
+# Set GPU devices
+export CUDA_VISIBLE_DEVICES=0
+# Local checkpoint
+python scripts/evaluate.py --model checkpoints/dropped_lora/final --train-config configs/dropped_lora.yaml
 
-# HuggingFace model (no config needed)
-python scripts/evaluate.py --model Qwen/Qwen3-8B
-
-# Original model checkpoint
-python scripts/evaluate.py --model checkpoints/original_lora/final --train-config configs/original.yaml
+# HuggingFace model
+python scripts/evaluate.py --model Qwen/Qwen3-8B --max-seq-length 4096
 ```
 
 ## Project Structure
@@ -39,142 +70,83 @@ python scripts/evaluate.py --model checkpoints/original_lora/final --train-confi
 ```
 src/
 └── llm_assignment/
-    ├── data_engine/                    # Data collection & preprocessing
-    │   ├── scraper.py          # Crawl4AI scraper for BMW PressClub
-    │   ├── pdf_downloader.py   # Download PDF attachments
-    │   └── pdf_preprocessor.py # Convert to Qwen3 format
-    ├── models/                  # Model loading
-    │   ├── model.py             # Unsloth + LoRA setup, unified inference loader
-    │   ├── dropped_model.py     # 35-layer variant (one layer dropped)
-    │   └── pruned_model.py      # N-layer variant (layers truncated)
-    ├── training/trainer.py      # Training with SFTTrainer
-    └── evaluation/              # Metrics & generation
+    ├── data_engine/            # Data collection & preprocessing
+    │   ├── scraper.py          # Crawl4AI scraper
+    │   ├── pdf_downloader.py   # Attachment downloader
+    │   ├── extraction.py       # PDF text extraction & cleaning
+    │   ├── formatting.py       # Qwen3 formatting utils
+    │   └── pipeline.py         # Orchestration logic
+    ├── models/                 # Model factory & wrappers
+    │   ├── factory.py          # Centralized model creation
+    │   ├── base.py             # Shared unsloth/lora logic
+    │   ├── model.py            # Original model wrapper
+    │   ├── dropped_model.py    # Dropped layer variant wrapper
+    │   └── pruned_model.py     # Pruned variant wrapper
+    ├── training/trainer.py     # SFTTrainer logic & config
+    └── evaluation/             # Metrics & generation
         ├── perplexity.py
         ├── semantic_entropy.py
         └── generate.py
 
-scripts/                     # Entry points
-data/                        # Raw PDFs & processed dataset
-results/                     # Evaluation outputs
+scripts/                        # Entry points
+├── scrape.py                   # Data collection pipeline
+├── preprocess.py               # Data processing pipeline
+├── train.py                    # Training entry point
+├── evaluate.py                 # Evaluation entry point
+└── utils/                   # Utility scripts
+    ├── analyze_params.py
+    ├── analyze_data.py
+    └── token_counter.py
+
+configs/                        # YAML configurations
+├── base.yaml                   # Shared defaults
+├── original.yaml               # Original model config
+├── dropped.yaml                # Dropped model config
+└── pruned.yaml                 # Pruned model config
 ```
 
-## PDF Preprocessing
+## Configuration
 
-The preprocessing pipeline supports **phase-based processing** with optional LLM filtering.
+The project uses a hierarchical configuration system. `configs/base.yaml` contains shared defaults for training, logging, and data. Specific configurations inherit from base via the `_extends` key.
 
-### Pipeline Phases
+Example (`configs/dropped_lora.yaml`):
+```yaml
+_extends: "base.yaml"
 
-```
-PDF → regex phase → preprocessed/*.txt → llm phase → llm_filtered/*.txt → format phase → processed/
-```
+model_type: "dropped"
+layer_to_drop: 16
+use_lora: true
 
-| Phase | Description | Output |
-|-------|-------------|--------|
-| `regex` | Extract text, apply regex cleaning | `data_engine/preprocessed/*.txt` |
-| `llm` | LLM-based header removal & quality filter | `data_engine/llm_filtered/*.txt` |
-| `format` | Convert to Qwen3 ChatML format | `data_engine/processed/train.jsonl` |
-| `all` | Full pipeline: regex → llm → format | `data_engine/processed/train.jsonl` |
-| `no-llm` | Basic pipeline: regex → format (skips LLM) | `data_engine/processed/train.jsonl` |
-
-### Usage
-
-```bash
-# Run basic pipeline (regex + format, no LLM) - Default
-python -m llm_assignment.data_engine.pdf_preprocessor
-
-# Run full pipeline with LLM filtering (requires GPU)
-python -m llm_assignment.data_engine.pdf_preprocessor --phase all
-
-# Run only regex phase
-python -m llm_assignment.data_engine.pdf_preprocessor --phase regex
-
-# Run only LLM phase on existing regex output
-python -m llm_assignment.data_engine.pdf_preprocessor --phase llm
-
-# Use smaller model for LLM phase
-python -m llm_assignment.data_engine.pdf_preprocessor --phase llm --llm-model openai/gpt-oss-20b
+lora:
+  r: 64
+  alpha: 16
 ```
 
-### CLI Arguments
+## Preprocessing Pipeline
 
-| Argument | Values | Default | Description |
-|----------|--------|---------|-------------|
-| `--phase` | `regex`, `llm`, `format`, `all`, `no-llm` | `no-llm` | Processing phase to run |
-| `--llm-model` | model name | `openai/gpt-oss-120b` | HuggingFace model for filtering |
-| `--train-ratio` | float | `0.8` | Train/eval split ratio |
-| `--style` | `instruct`, `article`, `qa` | `instruct` | Output format style |
+The data engine supports phase-based processing via `scripts/preprocess.py`:
 
-## Model Parameter Analysis
+| Phase | Description |
+|-------|-------------|
+| `regex` | Extract text from PDFs and apply regex cleaning |
+| `llm` | Use an LLM to filter nonsensical content (optional) |
+| `format` | Format cleaned text into Qwen3 ChatML style |
+| `no-llm` | Run `regex` and `format` phases (Default) |
+| `all` | Run all phases (`regex` -> `llm` -> `format`) |
 
-Analyze parameter distribution across model components:
+## Model Variants
 
-```bash
-# Basic analysis
-python scripts/analyze_params.py --model Qwen/Qwen3-8B
-
-# With per-layer breakdown
-python scripts/analyze_params.py --model Qwen/Qwen3-8B --detailed
-```
-
-Example output for Qwen3-8B:
-```
-  Total parameters:     8.191B
-  Parameters per layer: 192.95M
-  Number of layers:     36
-  Layer params total:   6.946B (84.8%)
-  Non-layer params:     1.245B (15.2%)
-
-  If you remove 1 layer:
-    New total:          7.998B
-    Reduction:          192.95M (2.36%)
-```
-
-## Design Choices
-
-### Model Selection
-- **Qwen3-8B**: SOTA 8B model with 36 transformer layers
-- **Reduced variant**: 35 layers (~3% fewer parameters)
-- **Training**: LoRA with 4-bit quantization via Unsloth (2-5x faster)
-
-### Data Collection
-- **Crawl4AI + Playwright**: Handles JavaScript-heavy BMW PressClub
-- **PDF-based**: Download official press release PDFs for cleaner text
-
-### Evaluation Metrics
-- **Perplexity**: Standard LM quality metric (lower = better)
-- **Semantic Entropy**: Uncertainty in meaning (higher = more hallucination risk)
-- **Sample Generations**: Qualitative comparison of outputs
-
-## Model Comparison
-
-| Metric | Original (36L) | Dropped (35L) | Pruned (24L) |
-|--------|----------------|---------------|---------------|
-| Parameters | ~8.19B | ~8.00B | ~5.88B |
-| Layers | 36 | 35 | 24 |
-| Reduction | — | ~2.4% | ~28% |
-| Perplexity | — | — | — |
-
-*(Results filled after training)*
-
-## Trade-offs Discussion
-
-### Model Size vs Quality
-- **Dropped**: Removing 1 layer reduces parameters by ~2.4%
-- **Pruned**: Removing 12 layers (keep 24) reduces parameters by ~28%
-- Trade-off between size reduction and quality degradation
-
-### What to Investigate Next
-- Layer importance analysis (which layer matters most to drop)
-- Knowledge distillation from full to pruned model
-- Quantization comparisons (4-bit vs 8-bit)
+| Model Type | Description | Config |
+|------------|-------------|--------|
+| `original` | Standard Qwen3-8B (36 layers) | `configs/original.yaml` |
+| `dropped` | Single transformer layer removed (e.g., layer 16) | `configs/dropped.yaml` |
+| `pruned` | Truncated to first N layers (e.g., first 24) | `configs/pruned.yaml` |
 
 ## Dependencies
 
-```
-torch, unsloth, transformers, trl, peft
-crawl4ai, playwright, pypdf
-sentence-transformers, tensorboard, wandb
-```
+- **Core**: `torch`, `unsloth`, `transformers`, `trl`, `peft`
+- **Data**: `crawl4ai`, `playwright`, `pypdf`
+- **Utils**: `wandb`, `tensorboard`, `pyyaml`, `pytest`
 
 ## License
 

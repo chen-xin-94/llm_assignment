@@ -10,6 +10,7 @@ from datetime import UTC
 from datetime import datetime
 import os
 from pathlib import Path
+from typing import Any
 
 from datasets import load_from_disk
 from dotenv import load_dotenv
@@ -30,6 +31,9 @@ class LoraConfig:
 
     r: int = 16
     alpha: int = 16
+
+
+DEFAULT_REPORT_TO = ["none"]
 
 
 @dataclass
@@ -69,6 +73,7 @@ class TrainingConfig:
     # W&B
     wandb_project: str = "bmw-llm-finetuning"
     wandb_run_name: str | None = None
+    report_to: list[str] = field(default_factory=lambda: DEFAULT_REPORT_TO)
 
     # Data
     dataset_path: str = "data/processed"
@@ -82,6 +87,8 @@ class TrainingConfig:
     def from_yaml(cls, yaml_path: str | Path) -> TrainingConfig:
         """Load configuration from a YAML file.
 
+        Supports inheritance via `_extends` key (relative path to base config).
+
         Args:
             yaml_path: Path to the YAML configuration file
 
@@ -90,11 +97,46 @@ class TrainingConfig:
         """
         import yaml
 
-        with Path(yaml_path).open() as f:
+        path = Path(yaml_path)
+        with path.open() as f:
             config_dict = yaml.safe_load(f)
+
+        # Handle inheritance
+        if "_extends" in config_dict:
+            base_filename = config_dict.pop("_extends")
+            base_path = path.parent / base_filename
+
+            if not base_path.exists():
+                raise FileNotFoundError(f"Base config {base_path} not found")
+
+            with base_path.open() as f:
+                base_dict = yaml.safe_load(f)
+
+            # Recursive merge base_dict into config_dict (overriding base)
+            # Simple 1-level merge for now, but handle nested 'lora' dict specifically
+            merged_dict = base_dict.copy()
+
+            # Deep merge logic could be added here if needed, but current usage is flat + lora
+            for key, value in config_dict.items():
+                if (
+                    key == "lora"
+                    and "lora" in merged_dict
+                    and isinstance(value, dict)
+                    and isinstance(merged_dict["lora"], dict)
+                ):
+                    merged_dict["lora"] = merged_dict["lora"].copy()
+                    merged_dict["lora"].update(value)
+                else:
+                    merged_dict[key] = value
+
+            config_dict = merged_dict
 
         # Parse lora as nested config for dot access
         lora_dict = config_dict.get("lora", {})
+        if not isinstance(lora_dict, dict):
+            # Handle case where lora might be just a boolean or something weird (though unlikely with type hints)
+            lora_dict = {}
+
         lora = LoraConfig(
             r=lora_dict.get("r", 16),
             alpha=lora_dict.get("alpha", 16),
@@ -130,6 +172,7 @@ class TrainingConfig:
             # W&B settings
             wandb_project=config_dict.get("wandb_project", cls.wandb_project),
             wandb_run_name=config_dict.get("wandb_run_name"),
+            report_to=config_dict.get("report_to", DEFAULT_REPORT_TO),
             # Data settings
             dataset_path=config_dict.get("dataset_path", cls.dataset_path),
             # Other settings
@@ -160,7 +203,7 @@ def get_training_args(config: TrainingConfig) -> SFTConfig:
         fp16=config.fp16,
         bf16=config.bf16,
         seed=config.seed,
-        report_to=["tensorboard", "wandb"],
+        report_to=config.report_to,
         run_name=config.wandb_run_name,
         logging_dir=config.logging_dir,
         load_best_model_at_end=True,
@@ -172,7 +215,7 @@ def get_training_args(config: TrainingConfig) -> SFTConfig:
     )
 
 
-def load_model(config: TrainingConfig):
+def load_model(config: TrainingConfig) -> tuple[Any, Any]:
     """Load model and tokenizer based on config.
 
     Args:
@@ -219,7 +262,7 @@ def load_model(config: TrainingConfig):
     return model, tokenizer
 
 
-def train_model(config: TrainingConfig) -> dict:
+def train_model(config: TrainingConfig) -> dict:  # pragma: no cover
     """Train the model with given configuration.
 
     Args:

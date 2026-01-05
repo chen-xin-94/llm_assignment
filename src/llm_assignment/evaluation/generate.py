@@ -41,7 +41,7 @@ def generate_samples(
     num_return_sequences: int = 1,
     enable_thinking: bool = False,
     is_pretrained: bool = True,
-) -> list[dict]:
+) -> list[dict]:  # pragma: no cover
     """Generate sample responses for prompts.
 
     Args:

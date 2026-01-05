@@ -16,20 +16,21 @@ import argparse
 import json
 from pathlib import Path
 
-import yaml
-
 from llm_assignment.evaluation.generate import generate_samples
 from llm_assignment.evaluation.generate import get_default_prompts
 from llm_assignment.evaluation.perplexity import compute_perplexity
 from llm_assignment.evaluation.semantic_entropy import evaluate_semantic_entropy
 from llm_assignment.evaluation.semantic_entropy import get_bmw_prompts
 from llm_assignment.models import load_model_for_inference_auto
+from llm_assignment.training.trainer import TrainingConfig
 
 
-def load_config(config_path: str) -> dict:
-    """Load training config from YAML file."""
-    with Path(config_path).open() as f:
-        return yaml.safe_load(f)
+def load_config(config_path: str) -> TrainingConfig:
+    """Load training config from YAML file.
+
+    Reuses TrainingConfig.from_yaml() which handles `_extends` inheritance.
+    """
+    return TrainingConfig.from_yaml(config_path)
 
 
 def main():
@@ -96,12 +97,12 @@ def main():
     print(f"Model: {args.model}")
 
     # Load config if provided
-    config = None
+    config: TrainingConfig | None = None
     if args.train_config:
         config = load_config(args.train_config)
         print(f"Config: {args.train_config}")
-        print(f"  model_type: {config.get('model_type', 'original')}")
-        print(f"  model_name: {config.get('model_name', 'Qwen/Qwen3-8B')}")
+        print(f"  model_type: {config.model_type}")
+        print(f"  model_name: {config.model_name}")
 
     # Load model
     print("\nLoading model...")
@@ -109,7 +110,7 @@ def main():
     # Priority for max_seq_length: CLI arg > Training Config > Default 4096
     max_seq_length = args.max_seq_length
     if max_seq_length is None:
-        max_seq_length = config["max_seq_length"] if config and "max_seq_length" in config else 4096
+        max_seq_length = config.max_seq_length if config else 4096
 
     model, tokenizer = load_model_for_inference_auto(
         model_path=args.model,
@@ -134,8 +135,8 @@ def main():
         # Priority: CLI arg > Config > Model Config > Default 4096
         max_length = args.max_seq_length
         if max_length is None:
-            if config and "max_seq_length" in config:
-                max_length = config["max_seq_length"]
+            if config:
+                max_length = config.max_seq_length
             elif hasattr(model.config, "max_position_embeddings"):
                 max_length = model.config.max_position_embeddings
                 print(f"Detected max_position_embeddings from model: {max_length}")

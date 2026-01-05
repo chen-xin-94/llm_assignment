@@ -1,0 +1,42 @@
+# Base configuration for BMW LLM Fine-tuning
+# Inherited by other config files via _extends
+
+# Model settings
+model_name: "Qwen/Qwen3-8B"
+max_seq_length: 4096
+packing: true
+
+# LoRA settings (default enabled, override in specific configs)
+use_lora: true
+lora:
+  r: 16
+  alpha: 16
+
+# Training settings
+output_dir: "checkpoints"
+learning_rate: 2.0e-4
+warmup_ratio: 0.03
+weight_decay: 0.01
+gradient_checkpointing: true
+
+# Logging settings
+logging_dir: "logs"
+logging_steps: 10
+eval_strategy: "steps"
+eval_steps: 100
+save_steps: 100
+save_total_limit: 5
+
+# Weights & Biases settings
+wandb_project: "bmw-llm-finetuning"
+# report_to:
+#   - "tensorboard"
+#   - "wandb"
+
+# Data settings
+dataset_path: "data/processed"
+
+# Other settings
+seed: 42
+fp16: false
+bf16: true

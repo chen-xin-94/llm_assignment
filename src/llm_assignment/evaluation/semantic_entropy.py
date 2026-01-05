@@ -77,7 +77,7 @@ def evaluate_semantic_entropy(
     n_samples: int = 8,
     temperature: float = 0.7,
     max_new_tokens: int = 512,
-) -> dict:
+) -> dict:  # pragma: no cover
     """Evaluate semantic entropy for a set of prompts.
 
     Args:

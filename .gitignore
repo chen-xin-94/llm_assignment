@@ -6,10 +6,18 @@ dist/
 wheels/
 *.egg-info
 
+# Unit test / coverage reports
+.coverage*
+coverage.xml
+
 # Virtual environments
 .venv
 
+# vscode
+.vscode
+
 # project-specific files
+.tasks.local
 .env
 _playground*
 /wandb
@@ -18,5 +26,8 @@ _playground*
 !/checkpoints/**/final/
 !/checkpoints/**/final/**
 /results_*
+
+# only keep for interview purpose
 # /logs
 # /data
+# /results

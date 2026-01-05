@@ -1,40 +1,6 @@
-# Configuration for training the PRUNED model (24 layers - aggressive pruning)
-# Usage: python scripts/train.py --config configs/pruned.yaml
+# Configuration for PRUNED model (truncated)
+_extends: "base.yaml"
 
-# Model settings
-model_name: "Qwen/Qwen3-8B"
 model_type: "pruned"
-max_seq_length: 4096
-packing: true
-keep_layers: 24  # Keep first 24 layers, prune remaining 12 (~33% reduction)
-
-# LoRA settings
+keep_layers: 24
 use_lora: false
-
-# Training settings
-output_dir: "checkpoints"
-num_train_epochs: 100
-per_device_train_batch_size: 8
-gradient_accumulation_steps: 1
-learning_rate: 2.0e-4
-warmup_ratio: 0.03
-weight_decay: 0.01
-
-# Logging settings
-logging_dir: "logs"
-logging_steps: 10
-eval_strategy: "steps"
-eval_steps: 100
-save_steps: 100
-save_total_limit: 5
-
-# Weights & Biases settings
-wandb_project: "bmw-llm-finetuning"
-
-# Data settings
-dataset_path: "data/processed"
-
-# Other settings
-seed: 42
-fp16: false
-bf16: true

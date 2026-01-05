@@ -19,7 +19,7 @@ def compute_perplexity(
     eval_dataset,
     batch_size: int = 8,
     max_length: int = 4096,
-) -> dict:
+) -> dict:  # pragma: no cover
     """Compute perplexity on evaluation dataset.
 
     Args:
