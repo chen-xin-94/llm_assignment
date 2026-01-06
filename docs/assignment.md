@@ -1,6 +1,6 @@
 You will build a small end-to-end pipeline that collects a manageable amount of recent
 BMW-related text from the BMW press releases
-(https://www.press.bmwgroup.com/global/) and preprocesses it into clean training and
+(<https://www.press.bmwgroup.com/global/>) and preprocesses it into clean training and
 evaluation splits.
 Choose a small open-source language model, fine-tune it briefly on this corpus (enough
 steps to show the pipeline working), and log basic training information such as loss over
@@ -10,6 +10,7 @@ set and produces a few sample generations answering BMW-related prompts.
 Deliver a Git repository with the code and a README explaining how to run each step,
 your main design choices, and a short summary of the results; the whole task should fit
 roughly into 6–8 hours.
+
 Option 1.2: Stretch version
 You create a second variant of your chosen language model by removing one transformer
 block or hidden layer.
