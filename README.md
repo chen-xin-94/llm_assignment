@@ -294,6 +294,21 @@ python scripts/utils/download_from_hub.py --repo-id Moonxc/Qwen3-8B-bmw-press --
 
 </details>
 
+> **Note:** More sample generation results for a BMW news Q&A set can be found in `results/evaluation_results_*.json`. The wildcard `*` corresponds to the Model Variants listed in the [Training (Model Variants) Options](#training-model-variants-options) section.
+
+## Discussion
+
+### Model Size vs. Quality
+
+Our experiments with the Qwen3-8B architecture (36 layers) reveal interesting insights into model redundancy:
+
+- **Dropping Layers**: Removing a single layer from the middle of the model (layer 16) resulted in minimal degradation of output quality. This suggests that certain layers in deep transformers may be redundant or perform functions that can be bypassed without catastrophic failure.
+- **Deep Pruning**: In contrast, pruning the last 1/3 of the layers (approximately 12 layers) caused a significant drop in performance, leading to incoherent or degenerate outputs (as seen in the qualitative examples). This indicates that the deeper layers are crucial for high-level reasoning and semantic coherence.
+
+### Training Efficiency
+
+With the utilization of **Unsloth** (observed 3-4x speedup compared to standard pytorch implementation), we achieved remarkable training efficiency. The entire fine-tuning process for 100 epochs on a dataset of ~1.4M tokens with a context length of 4096, was completed in under **3 hours** on a single **NVIDIA H100 GPU** for each model variant. This demonstrates that full fine-tuning or extensive LoRA training on highly optimized mid-size models is becoming increasingly accessible and time-efficient.
+
 ## Future Directions
 
 ### 1. With More Compute and Time
