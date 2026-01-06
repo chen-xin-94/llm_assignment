@@ -152,7 +152,7 @@ llm_assignment/
 
 ## Advanced Usage
 
-### Data Collection & Preprocessing Options
+### Data Collection Options
 
 Base command: `python scripts/scrape.py [ARGS]`
 
@@ -212,31 +212,35 @@ For detailed information, see the docs:
 | [Evaluation](docs/evaluation.md) | Perplexity, semantic entropy, sample generation |
 
 ## Data & Model Checkpoints
- 
+
 Scripts are provided to upload and download the dataset and model checkpoints separately using the Hugging Face Hub.
- 
+
 ### Uploading
- 
+
 **1. Upload Dataset**
 Uploaded the `data/` folder to `Moonxc/bmw-press-1k`:
+
 ```bash
 python scripts/utils/upload_to_hub.py --folder data --repo-id Moonxc/bmw-press-1k --type dataset
 ```
 
 **2. Upload Checkpoints**
 Uploaded the `checkpoints/` folder to `Moonxc/Qwen3-8B-bmw-press`:
+
 ```bash
 python scripts/utils/upload_to_hub.py --folder checkpoints --repo-id Moonxc/Qwen3-8B-bmw-press --type model
 ```
- 
+
 ### Downloading
- 
+
 **1. Download Dataset**
+
 ```bash
 python scripts/utils/download_from_hub.py --repo-id Moonxc/bmw-press-1k --folder data --type dataset
 ```
 
 **2. Download Checkpoints**
+
 ```bash
 python scripts/utils/download_from_hub.py --repo-id Moonxc/Qwen3-8B-bmw-press --folder checkpoints --type model
 ```
@@ -251,7 +255,7 @@ python scripts/utils/download_from_hub.py --repo-id Moonxc/Qwen3-8B-bmw-press --
 
 ### Evaluation Metrics Summary
 
-| Model | Test Perplexity ↓ | Mean Entropy ↓ |
+| Model | Test Perplexity ↓ | Semantic Entropy ↓ |
 |-------|--------------|----------------|
 | Qwen3-8B (Baseline) | 9.49 | 0.00 |
 | **original** | **5.59** | 0.73 |
@@ -261,7 +265,7 @@ python scripts/utils/download_from_hub.py --repo-id Moonxc/Qwen3-8B-bmw-press --
 | pruned | 11.60 | 1.93 |
 | pruned_lora | 14.96 | 1.61 |
 
-> **Note:** Lower perplexity indicates better language modeling. Lower mean entropy typically indicates more deterministic/confident generation. The baseline Qwen3-8B has 0.00 mean entropy because all generated responses fell into single semantic clusters.
+> **Note:** Lower perplexity indicates better language modeling. Lower semantic entropy typically indicates more deterministic/confident generation. The baseline Qwen3-8B has 0.00 semantic entropy because all generated responses fell into single semantic clusters.
 
 ### Qualitative Examples
 
@@ -310,10 +314,12 @@ python scripts/utils/download_from_hub.py --repo-id Moonxc/Qwen3-8B-bmw-press --
 
 - **Multimodal Integration**: Upgrade the data engine to scrape and process images from press releases. Use a VLM (e.g., Qwen3-VL) to extract image captions and descriptions, enriching the context window.
 - **Data Mixing**: Mix high-quality general text data into the training set to maintain general capabilities and further mitigate catastrophic forgetting.
+- **Data Augmentation**: Use techniques such as back-translation, paraphrasing, and text-to-text transfer to increase the diversity of the training data.
+- **Data Cleaning**: Implement data cleaning and validation to remove duplicates, irrelevant data, and low-quality content.
 
 ### 4. MLOps & Productionization
 
 - **Granular Experiment Tracking**: Fully integrate WandB/MLflow/ClearML for granular tracking of gradient norms, layer-wise activation statistics, and system metrics (GPU utilization).
-- **CI/CD Pipelines**: Automate the training pipeline with GitHub Actions/GitLab CI. Trigger automated regression tests (bleu/rouge scores) upon every code merge.
-- **Model Registry & Versioning**: Use tools like MLflow Model Registry to version control binary checkpoints alongside the data hash used to train them.
+- **CI/CD Pipelines**: Automate the code review pipeline with GitHub Actions/GitLab CI. Trigger automated tests upon every code merge.
+- **Model Registry & Data Versioning**: Use tools like MLflow Model Registry to version control binary checkpoints alongside the data hash used to train them.
 - **Serving Optimization**: Deploy the model using vLLM for high-throughput, low-latency production serving.
