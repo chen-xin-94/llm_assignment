@@ -33,7 +33,7 @@ llm_assignment/
 │
 ├── src/llm_assignment/                 # Core Python package
 │   │
-│   ├── data_engine/                    # 📊 Data Collection & Preprocessing
+│   ├── data_engine/                    # Data Collection & Preprocessing
 │   │   ├── scraper.py                  # Web crawler using Crawl4AI
 │   │   │                               # - Async article collection and scraping from press.bmwgroup.com
 │   │   ├── pdf_downloader.py           # PDF downloader using aiohttp
@@ -50,7 +50,7 @@ llm_assignment/
 │   │                                   # - Phase-based processing
 │   │                                   # - JSONL dataset generation
 │   │
-│   ├── models/                         # 🧠 Model Factory & Variants
+│   ├── models/                         # Model Factory & Variants
 │   │   ├── factory.py                  # Centralized model creation
 │   │   │                               # - Model type dispatch
 │   │   │                               # - Unified LoRA/full fine-tuning
@@ -64,13 +64,13 @@ llm_assignment/
 │   │   └── pruned_model.py             # Pruned variant
 │   │                                   # - Truncates to first N layers
 │   │
-│   ├── training/                       # 🏋️ Training Infrastructure
+│   ├── training/                       # Training Infrastructure
 │   │   └── trainer.py                  # SFTTrainer wrapper
 │   │                                   # - TrainingConfig with YAML config inheritance
 │   │                                   # - SFTConfig setup
 │   │                                   # - WandB & TensorBoard logging
 │   │
-│   ├── evaluation/                     # 📈 Evaluation Metrics
+│   ├── evaluation/                     # Evaluation Metrics
 │   │   ├── perplexity.py               # Perplexity calculation
 │   │   │                               # - Sliding window with stride
 │   │   ├── semantic_entropy.py         # Semantic entropy metrics
@@ -79,22 +79,22 @@ llm_assignment/
 │   │   └── generate.py                 # Sample generation
 │   │                                   # - Thinking mode parsing
 │   │                                   # - Batch generation
-│   ├── utils/                          # 🔧 Utility functions
+│   ├── utils/                          # Utility functions
 │   │   └── logging_config.py           # Centralized logging setup
 │
-├── scripts/                            # 🚀 CLI Entry Points
+├── scripts/                            # CLI Entry Points
 │   ├── scrape.py                       # Data collection CLI
 │   ├── preprocess.py                   # Preprocessing CLI
 │   ├── train.py                        # Training CLI
 │   ├── evaluate.py                     # Evaluation CLI
 │   │                                   # - Perplexity & entropy evaluation
 │   │                                   # - Sample generation with prompts
-│   └── utils/                          # 🔧 Utility Scripts
+│   └── utils/                          # Utility Scripts
 │       ├── analyze_params.py           # Layer-wise parameter analysis
 │       ├── analyze_data.py             # Dataset statistics & plots
 │       └── token_counter.py            # Token length distribution
 │
-├── configs/                            # ⚙️ YAML Configurations
+├── configs/                            # YAML Configurations
 │   ├── base.yaml                       # Shared defaults (learning rate, logging, etc.)
 │   ├── original.yaml                   # Original 36-layer model (full fine-tuning)
 │   ├── original_lora.yaml              # Original model + LoRA adapters
@@ -103,7 +103,7 @@ llm_assignment/
 │   ├── pruned.yaml                     # Pruned model (full fine-tuning)
 │   └── pruned_lora.yaml                # Pruned model + LoRA
 │
-├── tests/                              # 🧪 Test Suite
+├── tests/                              # Test Suite
 │   ├── conftest.py                     # Pytest fixtures
 │   ├── unit/                           # Unit tests
 │   │   ├── test_evaluation.py          # Perplexity & semantic entropy tests
@@ -116,20 +116,24 @@ llm_assignment/
 │   └── integration/                    # Integration tests
 │       └── test_model_factory_integration.py
 │
-├── docs/                               # 📚 Documentation
+├── docs/                               # Documentation
 │   ├── architecture.md                 # Model factory pattern, config system
+│   ├── configuration.md                # Configuration reference & inheritance
+│   ├── data_collection.md              # Scraping & downloading pipeline
 │   ├── preprocessing.md                # Data pipeline details
 │   ├── training.md                     # Training flow & options
 │   ├── evaluation.md                   # Metrics explanation
-│   └── assignment.md                   # Original assignment spec
+│   ├── assignment.md                   # Original assignment spec
+│   ├── DATASET_CARD.md                 # Dataset documentation
+│   └── MODEL_CARD.md                   # Model documentation
 │
-├── results/                            # 📊 Evaluation Results
+├── results/                            # Evaluation Results
 │   ├── train_loss.png                  # Training loss curves
 │   ├── eval_loss.png                   # Evaluation loss curves
 │   ├── token_length_histogram.png      # Dataset token distribution
 │   └── evaluation_results_*.json       # Per-model evaluation metrics
 │
-├── data/                               # 📁 Data Directory (gitignored)
+├── data/                               # Data Directory (See below to download)
 │   ├── all_articles.json               # Article metadata & URLs
 │   ├── scraped/                        # Scraped HTML content
 │   ├── pdfs/                           # Downloaded PDF attachments
@@ -137,9 +141,9 @@ llm_assignment/
 │   ├── preprocessed_llm/               # LLM-filtered text
 │   └── processed/                      # Final datasets
 │
-├── checkpoints/                        # 💾 Model Checkpoints (gitignored)
-├── logs/                               # 📝 Training Logs
-├── wandb/                              # 📈 WandB Run Data
+├── checkpoints/                        # Model Checkpoints (See below to download)
+├── logs/                               # Training Logs
+├── wandb/                              # WandB Run Data
 │
 ├── setup.sh                            # One-line environment setup
 ├── pyproject.toml                      # Project metadata & dependencies
@@ -206,6 +210,36 @@ For detailed information, see the docs:
 | [Preprocessing](docs/preprocessing.md) | Data pipeline: extraction, LLM filtering, formatting |
 | [Training](docs/training.md) | Training flow, configuration options, logging |
 | [Evaluation](docs/evaluation.md) | Perplexity, semantic entropy, sample generation |
+
+## Data & Model Checkpoints
+ 
+Scripts are provided to upload and download the dataset and model checkpoints separately using the Hugging Face Hub.
+ 
+### Uploading
+ 
+**1. Upload Dataset**
+Uploaded the `data/` folder to `Moonxc/bmw-press-1k`:
+```bash
+python scripts/utils/upload_to_hub.py --folder data --repo-id Moonxc/bmw-press-1k --type dataset
+```
+
+**2. Upload Checkpoints**
+Uploaded the `checkpoints/` folder to `Moonxc/Qwen3-8B-bmw-press`:
+```bash
+python scripts/utils/upload_to_hub.py --folder checkpoints --repo-id Moonxc/Qwen3-8B-bmw-press --type model
+```
+ 
+### Downloading
+ 
+**1. Download Dataset**
+```bash
+python scripts/utils/download_from_hub.py --repo-id Moonxc/bmw-press-1k --folder data --type dataset
+```
+
+**2. Download Checkpoints**
+```bash
+python scripts/utils/download_from_hub.py --repo-id Moonxc/Qwen3-8B-bmw-press --folder checkpoints --type model
+```
 
 ## Results
 

@@ -22,11 +22,9 @@ _playground*
 /wandb
 /*_cache
 /checkpoints*
-!/checkpoints/**/final/
-!/checkpoints/**/final/**
+/data
 /results_*
 
 # only keep for interview purpose
 # /logs
-# /data
 # /results
