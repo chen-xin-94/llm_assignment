@@ -10,11 +10,10 @@ wheels/
 .coverage*
 coverage.xml
 
-# Virtual environments
+# Environments
 .venv
-
-# vscode
 .vscode
+.DS_Store
 
 # project-specific files
 .tasks.local

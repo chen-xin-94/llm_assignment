@@ -1,9 +1,14 @@
 """Integration tests for ModelFactory."""
 
+import platform
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
+
+# Skip entire module on macOS since Unsloth requires NVIDIA/AMD/Intel GPUs
+if platform.system() == "Darwin":
+    pytest.skip("Unsloth not supported on macOS", allow_module_level=True)
 
 from llm_assignment.models.factory import ModelFactory
 

@@ -1,5 +1,6 @@
 """Unit tests for TrainingConfig and trainer utilities."""
 
+import platform
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
@@ -7,6 +8,9 @@ import pytest
 import yaml
 
 from llm_assignment.training.trainer import TrainingConfig
+
+# Marker for tests that require GPU (Unsloth)
+requires_gpu = pytest.mark.skipif(platform.system() == "Darwin", reason="Unsloth not supported on macOS")
 
 
 def test_config_defaults():
@@ -71,6 +75,7 @@ def test_get_training_args():
     assert args.output_dir == "checkpoints"
 
 
+@requires_gpu
 @patch("llm_assignment.models.model.load_model_for_training")
 def test_load_model_original(mock_load):
     """Test load_model for original type."""
@@ -84,6 +89,7 @@ def test_load_model_original(mock_load):
     mock_load.assert_called_once()
 
 
+@requires_gpu
 def test_load_model_invalid():
     """Test load_model with invalid type raises ValueError."""
     from llm_assignment.training.trainer import load_model

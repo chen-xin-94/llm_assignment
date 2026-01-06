@@ -4,7 +4,7 @@ import logging
 
 import pytest
 
-from llm_assignment.logging_config import setup_logging
+from llm_assignment.utils.logging_config import setup_logging
 
 
 def test_setup_logging_basic():
