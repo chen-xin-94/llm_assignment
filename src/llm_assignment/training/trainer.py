@@ -14,6 +14,7 @@ from typing import Any
 
 from datasets import load_from_disk
 from dotenv import load_dotenv
+import unsloth # noqa: F401 # import unsloth before trl, otherwise ValueError: The specified `eos_token` ('<EOS_TOKEN>') is not found in the vocabulary of the given `processing_class` (Qwen2TokenizerFast). Ensure that the `eos_token` exists in the vocabulary before using it as an EOS token. 
 from trl import SFTConfig
 from trl import SFTTrainer
 
